@@ -15,12 +15,12 @@ import inra.ijpb.watershed.Watershed;
 
 public class ShdSegment {
 
-    int radius = 2;
-    int tolerance = 3;
-    String strConn = "26";
-    Boolean dams = true;
-    ImagePlus imp = null;
-    BufferedImage image = null;
+    private int radius = 2;
+    private int tolerance = 3;
+    private String strConn = "26";
+    private Boolean dams = true;
+    private ImagePlus imp = null;
+    private BufferedImage image = null;
 
     public BufferedImage segmentImage() {
         if(imp == null)
