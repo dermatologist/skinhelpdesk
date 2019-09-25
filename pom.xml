@@ -91,6 +91,7 @@
   <modules>
     <module>segment</module>
     <module>facedetect</module>
+    <module>shdutils</module>
   </modules>
   <repositories>
     <repository>
