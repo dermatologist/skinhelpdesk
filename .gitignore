@@ -75,4 +75,4 @@ nb-configuration.xml
 ##############################
 .DS_Store
 
-test_images/
+*/test_images/

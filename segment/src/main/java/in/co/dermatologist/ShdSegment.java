@@ -1,23 +1,18 @@
 package in.co.dermatologist;
 
 import ij.ImagePlus;
-import ij.ImageStack;
 import ij.process.ImageProcessor;
+import inra.ijpb.binary.BinaryImages;
+import inra.ijpb.morphology.MinimaAndMaxima;
+import inra.ijpb.watershed.Watershed;
 
 import java.awt.image.BufferedImage;
-
-import inra.ijpb.binary.BinaryImages;
-import inra.ijpb.data.image.ByteStackWrapper;
-import inra.ijpb.data.image.Image3D;
-import inra.ijpb.data.image.Images3D;
-import inra.ijpb.morphology.*;
-import inra.ijpb.watershed.Watershed;
 
 public class ShdSegment {
 
     private int radius = 2;
     private int tolerance = 3;
-    private String strConn = "4";
+    private int conn = 4;
     private Boolean dams = true;
     private ImagePlus imp = null;
     private BufferedImage image = null;
@@ -27,6 +22,7 @@ public class ShdSegment {
 
     ShdSegment(String inputImageStr){
         this.inputImageStr = inputImageStr;
+        segmentImage();
     }
 
     public void segmentImage() {
@@ -36,36 +32,12 @@ public class ShdSegment {
         if(imp == null)
             imp = new ImagePlus("Title", image);
 
-        // convert connectivity string to int
-
-        int conn = Integer.parseInt(strConn);
-
-
-//        ImageStack imageStack = null;
-//
-//        if (radius != 0) {
-//
-//            Strel strel = Strel.Shape.SQUARE.fromRadius(radius);
-//
-//
-//            imageStack = Morphology.gradient(imp.getImageStack(), strel);
-//
-//        } else {
-//            imageStack = imp.getImageStack();
-//        }
-
         ImageProcessor imageStack = imp.getProcessor();
 
         ImageProcessor regionalMinima = MinimaAndMaxima.extendedMinima(imageStack, tolerance, conn);
         ImageProcessor imposedMinima = MinimaAndMaxima.imposeMinima(imageStack, regionalMinima, conn);
         ImageProcessor labeledMinima = BinaryImages.componentsLabeling(regionalMinima, conn, 32);
         ImageProcessor resultStack = Watershed.computeWatershed(imposedMinima, labeledMinima, conn, dams);
-        //ImagePlus resultImage = new ImagePlus("watershed", resultStack);
-//        resultImage.setCalibration(imp.getCalibration());
-//        Images3D.optimizeDisplayRange(resultImage);
-//        resultImage.setSlice(imp.getCurrentSlice());
-        //ImageProcessor imgProcessor = resultImage.getProcessor();
-        //System.out.println(resultStack.getWidth());
         this.retImage = resultStack.getBufferedImage();
         this.outputImageStr = ShdUtils.encodeToString(this.retImage, "jpeg");
     }
@@ -86,12 +58,12 @@ public class ShdSegment {
         this.tolerance = tolerance;
     }
 
-    public String getStrConn() {
-        return strConn;
+    public int getConn() {
+        return conn;
     }
 
-    public void setStrConn(String strConn) {
-        this.strConn = strConn;
+    public void setConn(int conn) {
+        this.conn = conn;
     }
 
     public Boolean getDams() {
@@ -124,6 +96,7 @@ public class ShdSegment {
 
     public void setImageStr(String imageStr) {
         this.inputImageStr = imageStr;
+        segmentImage();
     }
 
     public String getOutputImageStr() {

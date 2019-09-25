@@ -1,10 +1,8 @@
 package in.co.dermatologist;
 
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
-import javax.imageio.ImageIO;
 
 /*
 From https://github.com/nikhitareddy/Image-Segmentation
@@ -157,9 +155,6 @@ public class ShdKmeansSegment {
         System.out.println("Clustered to " + k + " clusters in " + loops
                 + " loops in " + (end - start) + " ms.");
         outputImageStr = ShdUtils.encodeToString(result, "jpeg");
-//        File outputfile = new File("image_out.jpg");
-//        ImageIO.write(result, "jpg", outputfile);
-        //return result;
     }
 
     public Cluster[] createClusters(BufferedImage image, int k) {
