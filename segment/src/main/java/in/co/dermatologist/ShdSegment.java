@@ -7,22 +7,32 @@ import ij.process.ImageProcessor;
 import java.awt.image.BufferedImage;
 
 import inra.ijpb.binary.BinaryImages;
+import inra.ijpb.data.image.ByteStackWrapper;
+import inra.ijpb.data.image.Image3D;
 import inra.ijpb.data.image.Images3D;
-import inra.ijpb.morphology.MinimaAndMaxima3D;
-import inra.ijpb.morphology.Morphology;
-import inra.ijpb.morphology.Strel3D;
+import inra.ijpb.morphology.*;
 import inra.ijpb.watershed.Watershed;
 
 public class ShdSegment {
 
     private int radius = 2;
     private int tolerance = 3;
-    private String strConn = "26";
+    private String strConn = "4";
     private Boolean dams = true;
     private ImagePlus imp = null;
     private BufferedImage image = null;
+    private BufferedImage retImage = null;
+    private String inputImageStr = "";
+    private String outputImageStr = "";
 
-    public BufferedImage segmentImage() {
+    ShdSegment(String inputImageStr){
+        this.inputImageStr = inputImageStr;
+    }
+
+    public void segmentImage() {
+        if(imp == null && image == null){
+            image = ShdUtils.decodeToImage(inputImageStr);
+        }
         if(imp == null)
             imp = new ImagePlus("Title", image);
 
@@ -31,30 +41,33 @@ public class ShdSegment {
         int conn = Integer.parseInt(strConn);
 
 
-        ImageStack imageStack = null;
+//        ImageStack imageStack = null;
+//
+//        if (radius != 0) {
+//
+//            Strel strel = Strel.Shape.SQUARE.fromRadius(radius);
+//
+//
+//            imageStack = Morphology.gradient(imp.getImageStack(), strel);
+//
+//        } else {
+//            imageStack = imp.getImageStack();
+//        }
 
-        if (radius != 0) {
+        ImageProcessor imageStack = imp.getProcessor();
 
-            Strel3D strel = Strel3D.Shape.CUBE.fromRadius(radius);
-
-
-            imageStack = Morphology.gradient(imp.getImageStack(), strel);
-
-        } else {
-            imageStack = imp.getImageStack();
-        }
-
-        ImageStack regionalMinima = MinimaAndMaxima3D.extendedMinima(imageStack, tolerance, conn);
-        ImageStack imposedMinima = MinimaAndMaxima3D.imposeMinima(imageStack, regionalMinima, conn);
-        ImageStack labeledMinima = BinaryImages.componentsLabeling(regionalMinima, conn, 32);
-        ImageStack resultStack = Watershed.computeWatershed(imposedMinima, labeledMinima, conn, dams);
-        ImagePlus resultImage = new ImagePlus("watershed", resultStack);
-        resultImage.setCalibration(imp.getCalibration());
-        Images3D.optimizeDisplayRange(resultImage);
-        resultImage.setSlice(imp.getCurrentSlice());
-        ImageProcessor imgProcessor = resultImage.getProcessor();
-        BufferedImage retImage = imgProcessor.getBufferedImage();
-        return retImage;
+        ImageProcessor regionalMinima = MinimaAndMaxima.extendedMinima(imageStack, tolerance, conn);
+        ImageProcessor imposedMinima = MinimaAndMaxima.imposeMinima(imageStack, regionalMinima, conn);
+        ImageProcessor labeledMinima = BinaryImages.componentsLabeling(regionalMinima, conn, 32);
+        ImageProcessor resultStack = Watershed.computeWatershed(imposedMinima, labeledMinima, conn, dams);
+        //ImagePlus resultImage = new ImagePlus("watershed", resultStack);
+//        resultImage.setCalibration(imp.getCalibration());
+//        Images3D.optimizeDisplayRange(resultImage);
+//        resultImage.setSlice(imp.getCurrentSlice());
+        //ImageProcessor imgProcessor = resultImage.getProcessor();
+        //System.out.println(resultStack.getWidth());
+        this.retImage = resultStack.getBufferedImage();
+        this.outputImageStr = ShdUtils.encodeToString(this.retImage, "jpeg");
     }
 
     public int getRadius() {
@@ -103,5 +116,21 @@ public class ShdSegment {
 
     public void setImage(BufferedImage image) {
         this.image = image;
+    }
+
+    public String getImageStr() {
+        return inputImageStr;
+    }
+
+    public void setImageStr(String imageStr) {
+        this.inputImageStr = imageStr;
+    }
+
+    public String getOutputImageStr() {
+        return outputImageStr;
+    }
+
+    public BufferedImage getRetImage() {
+        return retImage;
     }
 }
