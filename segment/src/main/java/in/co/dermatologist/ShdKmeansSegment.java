@@ -22,7 +22,7 @@ public class ShdKmeansSegment {
     private String outputImageStr = "";
 
 
-    ShdKmeansSegment(String inputImageStr) throws IOException {
+    public ShdKmeansSegment(String inputImageStr) throws IOException {
         this.inputImageStr = inputImageStr;
         original = ShdUtils.decodeToImage(inputImageStr);
         calculate();

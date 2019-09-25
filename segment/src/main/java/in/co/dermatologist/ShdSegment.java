@@ -20,7 +20,7 @@ public class ShdSegment {
     private String inputImageStr = "";
     private String outputImageStr = "";
 
-    ShdSegment(String inputImageStr){
+    public ShdSegment(String inputImageStr) {
         this.inputImageStr = inputImageStr;
         segmentImage();
     }
