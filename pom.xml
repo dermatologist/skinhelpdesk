@@ -25,6 +25,21 @@
       <version>4.11</version>
       <scope>test</scope>
     </dependency>
+
+    <!-- https://mvnrepository.com/artifact/net.imagej/imagej -->
+    <dependency>
+      <groupId>net.imagej</groupId>
+      <artifactId>imagej</artifactId>
+      <version>2.0.0-rc-71</version>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/fr.inra.ijpb/MorphoLibJ_ -->
+    <dependency>
+      <groupId>fr.inra.ijpb</groupId>
+      <artifactId>MorphoLibJ_</artifactId>
+      <version>1.4.1</version>
+    </dependency>
+
   </dependencies>
 
   <build>
@@ -73,7 +88,15 @@
       </plugins>
     </pluginManagement>
   </build>
-<modules>  <module>segment</module>
+  <modules>
+    <module>segment</module>
     <module>facedetect</module>
+    <module>shdutils</module>
   </modules>
+  <repositories>
+    <repository>
+      <id>scijava.public</id>
+      <url>https://maven.scijava.org/content/groups/public</url>
+    </repository>
+  </repositories>
 </project>
