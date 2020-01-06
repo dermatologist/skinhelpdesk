@@ -3,6 +3,7 @@ package in.co.dermatologist;
 import org.junit.Test;
 
 import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -47,6 +48,26 @@ public class ShdSegmentTest {
         BufferedWriter writer = new BufferedWriter(new FileWriter(skinhelpdesk + "/test_images/image_out_kmeans.txt"));
         writer.write(outI);
         File outputfile = new File(skinhelpdesk + "/test_images/image_out_kmeans.jpg");
+        ImageIO.write(ShdUtils.decodeToImage(outI), "jpg", outputfile);
+
+        writer.close();
+    }
+
+    @Test
+    public void shouldSegmentWithKmeansFromImage() throws IOException {
+        String skinhelpdesk = System.getProperty("user.dir");
+        BufferedImage img = null;
+        try {
+            img = ImageIO.read(new File(skinhelpdesk + "/test_images/my-picture.jpg"));
+        } catch (IOException e) {
+        }
+        String inpI = ShdUtils.encodeToString(img, "jpg");
+        // String inpI = new String(Files.readAllBytes(Paths.get(skinhelpdesk + "/test_images/image.txt")));
+        ShdKmeansSegment shdKmeansSegment = new ShdKmeansSegment(inpI);
+        String outI = shdKmeansSegment.getOutputImageStr();
+        BufferedWriter writer = new BufferedWriter(new FileWriter(skinhelpdesk + "/test_images/mypic_out_kmeans.txt"));
+        writer.write(outI);
+        File outputfile = new File(skinhelpdesk + "/test_images/mypic_out_kmeans.jpg");
         ImageIO.write(ShdUtils.decodeToImage(outI), "jpg", outputfile);
 
         writer.close();

@@ -5,3 +5,5 @@
 
 ## Add module
 * mvn archetype:generate -DgroupId=in.co.dermatologist  -DartifactId=add-name-here
+
+## The test_images folder in each module at the same level as stc and target
