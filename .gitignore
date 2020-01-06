@@ -75,4 +75,15 @@ nb-configuration.xml
 ##############################
 .DS_Store
 
+##############################
+## VSCode
+##############################
+*.factorypath
+*.factorypath/
+*/.factorypath/
+.vscode
+
+##############################
+## Test Resources
+##############################
 */test_images/
