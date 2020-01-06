@@ -4,12 +4,12 @@
   <parent>
     <artifactId>skinhelpdesk</artifactId>
     <groupId>in.co.dermatologist</groupId>
-    <version>0.0.1</version>
+    <version>0.0.2</version>
   </parent>
 
 <!--  <groupId>in.co.dermatologist</groupId>-->
   <artifactId>facedetect</artifactId>
-  <version>0.0.1</version>
+  <version>0.0.2</version>
 
   <name>facedetect</name>
   <!-- FIXME change it to the project's website -->
