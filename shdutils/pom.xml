@@ -4,12 +4,12 @@
   <parent>
     <artifactId>skinhelpdesk</artifactId>
     <groupId>in.co.dermatologist</groupId>
-    <version>0.0.4</version>
+    <version>0.0.5</version>
   </parent>
 
   <groupId>in.co.dermatologist</groupId>
   <artifactId>shdutils</artifactId>
-  <version>0.0.4</version>
+  <version>0.0.5</version>
 
   <name>shdutils</name>
   <!-- FIXME change it to the project's website -->
