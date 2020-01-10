@@ -21,8 +21,11 @@ public class ShdSegmentTest {
      * Rigorous Test :-)
      */
     @Test
-    public void shouldAnswerWithTrue() {
-        assertTrue(true);
+    public void shouldConvertToGreyScale() throws IOException {
+
+        ShdSegment.convertToGreyScale();
+
+
     }
 
     // @Test
@@ -72,4 +75,6 @@ public class ShdSegmentTest {
 
     //     writer.close();
     // }
+
+
 }
